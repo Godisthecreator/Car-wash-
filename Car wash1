@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.CarsClean | Premium Car Wash & Detailing</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            cyan: '#06b6d4',
+                            accent: '#38bdf8'
+                        },
+                        dark: {
+                            bg: '#080c14',
+                            card: '#111827',
+                            border: '#1f293d',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #080c14;
+            color: #f1f5f9;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-effect {
+            box-shadow: 0 0 35px -5px rgba(56, 189, 248, 0.35);
+        }
+        .glow-card:hover {
+            box-shadow: 0 0 30px -5px rgba(59, 130, 246, 0.4);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-gray-800/80 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-cyan flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+                        <i class="fa-solid fa-car-wash text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-white">M.<span class="text-brand-accent">CARSCLEAN</span></span>
+                        <span class="block text-[10px] tracking-widest text-brand-accent uppercase font-bold">Auto Detailing Studio</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#packages" class="text-gray-300 hover:text-brand-accent transition-colors">Packages & Pricing</a>
+                    <a href="#addons" class="text-gray-300 hover:text-brand-accent transition-colors">Add-ons</a>
+                    <a href="#calculator" class="text-gray-300 hover:text-brand-accent transition-colors">Price Estimator</a>
+                    <a href="#reviews" class="text-gray-300 hover:text-brand-accent transition-colors">Client Feedback</a>
+                </nav>
+
+                <!-- CTA & Direct Email Contact -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="mailto:marnusvs09@gmail.com" class="px-4 py-2.5 rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-accent hover:bg-brand-500/20 font-medium text-sm flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-envelope text-lg"></i>
+                        <span>marnusvs09@gmail.com</span>
+                    </a>
+                    <button onclick="openBookingModal('Standard', 100)" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 hover:to-brand-400 text-white font-semibold text-sm shadow-lg shadow-brand-500/25 transition-all transform hover:-translate-y-0.5">
+                        Book Wash Now
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-gray-800 bg-dark-bg/95 backdrop-blur-xl px-4 pt-2 pb-6 space-y-3">
+            <a href="#packages" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Packages & Pricing</a>
+            <a href="#addons" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Add-ons</a>
+            <a href="#calculator" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Price Estimator</a>
+            <a href="#reviews" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Client Feedback</a>
+            <div class="pt-4 flex flex-col space-y-2">
+                <a href="mailto:marnusvs09@gmail.com" class="w-full text-center py-2.5 rounded-xl border border-brand-500/30 bg-brand-500/10 text-brand-accent font-medium text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-envelope text-lg"></i> Email: marnusvs09@gmail.com
+                </a>
+                <button onclick="openBookingModal('Standard', 100)" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-semibold text-sm">
+                    Book Service Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-12 pb-20 md:py-28 overflow-hidden">
+        <!-- Background Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-600/20 blur-[130px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[350px] h-[250px] bg-brand-cyan/15 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto space-y-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-accent text-xs sm:text-sm font-semibold tracking-wide">
+                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+                    M.CarsClean Premium Mobile & Studio Detailing
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+                    Showroom Finish, <br class="hidden sm:inline"/>
+                    <span class="bg-gradient-to-r from-white via-brand-100 to-brand-accent bg-clip-text text-transparent">Direct To Your Vehicle.</span>
+                </h1>
+                <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+                    From basic high-foam pressure washes to deep carpet shampoo extraction and full body hand polish. Select your preferred booking date and time.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <a href="#packages" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 hover:to-brand-400 text-white font-bold shadow-xl shadow-brand-600/30 transition-all transform hover:-translate-y-0.5 text-center">
+                        View Service Packages
+                    </a>
+                    <a href="#calculator" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-gray-700 bg-gray-900/60 hover:bg-gray-800 text-gray-200 font-semibold transition-all text-center">
+                        Calculate Custom Quote
+                    </a>
+                </div>
+
+                <!-- Highlights -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 text-left">
+                    <div class="p-4 rounded-xl border border-gray-800/80 bg-gray-900/40 backdrop-blur">
+                        <i class="fa-solid fa-droplet text-brand-accent text-xl mb-2"></i>
+                        <h4 class="text-white font-bold text-sm">pH-Balanced Soap</h4>
+                        <p class="text-gray-400 text-xs mt-0.5">Paint-safe chemical soaps</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-gray-800/80 bg-gray-900/40 backdrop-blur">
+                        <i class="fa-solid fa-shield-halved text-brand-accent text-xl mb-2"></i>
+                        <h4 class="text-white font-bold text-sm">Scratch-Free Tech</h4>
+                        <p class="text-gray-400 text-xs mt-0.5">Microfiber dual-bucket prep</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-gray-800/80 bg-gray-900/40 backdrop-blur">
+                        <i class="fa-solid fa-calendar-check text-brand-accent text-xl mb-2"></i>
+                        <h4 class="text-white font-bold text-sm">Custom Booking</h4>
+                        <p class="text-gray-400 text-xs mt-0.5">Pick exact date & time</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-gray-800/80 bg-gray-900/40 backdrop-blur">
+                        <i class="fa-solid fa-envelope-circle-check text-brand-accent text-xl mb-2"></i>
+                        <h4 class="text-white font-bold text-sm">Direct Email Routing</h4>
+                        <p class="text-gray-400 text-xs mt-0.5">Direct to marnusvs09@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGES SECTION -->
+    <section id="packages" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-accent">Service Tiers</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Choose Your Level Of Clean</h3>
+                <p class="text-gray-400 text-sm sm:text-base">Transparent pricing. Click any package below to select your desired booking date and time.</p>
+            </div>
+
+            <!-- PRICING CARDS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+
+                <!-- 1. BASIC PACKAGE -->
+                <div class="rounded-2xl border border-gray-800 bg-dark-card p-8 flex flex-col justify-between glow-card transition-all duration-300 relative">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700">Quick & Fresh</span>
+                            <i class="fa-solid fa-shower text-gray-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mt-4">Basic Wash</h3>
+                        <p class="text-gray-400 text-xs mt-1">Normal exterior wash to quickly restore clean exterior paint and glass.</p>
+                        
+                        <div class="my-6">
+                            <span class="text-4xl font-black text-white">R50</span>
+                            <span class="text-gray-400 text-xs ml-1">/ single wash</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-gray-300 border-t border-gray-800/80 pt-6">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                                <span>Full Body High-Foam Exterior Wash</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                                <span>Scratch-Free Hand Microfiber Dry</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                                <span>Tire & Rim Wash</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                                <span>Exterior Glass Wipe Down</span>
+                            </li>
+                            <li class="flex items-start gap-3 opacity-40">
+                                <i class="fa-solid fa-circle-xmark text-gray-600 mt-0.5"></i>
+                                <span class="line-through">Interior Vacuum & Dashboard Wipe</span>
+                            </li>
+                            <li class="flex items-start gap-3 opacity-40">
+                                <i class="fa-solid fa-circle-xmark text-gray-600 mt-0.5"></i>
+                                <span class="line-through">Full Body Hand Polish</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openBookingModal('Basic', 50)" class="mt-8 w-full py-3.5 rounded-xl border border-gray-700 hover:border-brand-500 hover:bg-brand-500/10 text-white font-bold transition-all text-sm">
+                        Select Basic (R50)
+                    </button>
+                </div>
+
+                <!-- 2. STANDARD PACKAGE (POPULAR) -->
+                <div class="rounded-2xl border-2 border-brand-500 bg-dark-card p-8 flex flex-col justify-between glow-effect relative transform md:-translate-y-2">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-600 to-brand-cyan text-white text-[11px] font-black uppercase tracking-wider px-4 py-1 rounded-full shadow-md">
+                        ★ Most Popular Choice
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-brand-500/20 text-brand-accent border border-brand-500/30">Inside & Out</span>
+                            <i class="fa-solid fa-sparkles text-brand-accent text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mt-4">Standard Wash</h3>
+                        <p class="text-gray-400 text-xs mt-1">Complete interior and exterior maintenance wash.</p>
+                        
+                        <div class="my-6">
+                            <span class="text-4xl font-black text-white">R100</span>
+                            <span class="text-gray-400 text-xs ml-1">/ single service</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-gray-200 border-t border-gray-800/80 pt-6">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span class="font-medium text-white">Everything in Basic Package</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span>Full Interior Vacuum (Seats, Carpets & Trunk)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span>Dashboard, Console & Vents Wipe-Down</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span>Door Jambs & Frame Cleaned</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span>Inside & Outside Glass Clean</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-brand-accent mt-0.5"></i>
+                                <span>Premium Tire Dressing & Gloss Finish</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openBookingModal('Standard', 100)" class="mt-8 w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 hover:to-brand-400 text-white font-bold shadow-lg shadow-brand-500/30 transition-all text-sm">
+                        Select Standard (R100)
+                    </button>
+                </div>
+
+                <!-- 3. EXECUTIVE PACKAGE (PREMIUM) -->
+                <div class="rounded-2xl border border-amber-500/40 bg-gradient-to-b from-dark-card to-gray-950 p-8 flex flex-col justify-between glow-card transition-all duration-300 relative">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">The Ultimate Reset</span>
+                            <i class="fa-solid fa-crown text-amber-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mt-4">Executive Detail</h3>
+                        <p class="text-gray-400 text-xs mt-1">Deep clean, full body polish, and brand-new showroom feel.</p>
+                        
+                        <div class="my-6">
+                            <span class="text-4xl font-black text-amber-400">R270</span>
+                            <span class="text-gray-400 text-xs ml-1">/ full detailing</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-gray-300 border-t border-gray-800/80 pt-6">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span class="font-medium text-white">Everything in Standard Package</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span class="font-bold text-amber-300">Full Body Hand Polish & High Gloss Finish</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span>Deep Interior Shampoo & Extraction Wash</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span>Engine Bay Degrease & Wash</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span>Exterior Plastic Trim Restorer</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-amber-400 mt-0.5"></i>
+                                <span>Luxury Air Freshener Treatment</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openBookingModal('Executive', 270)" class="mt-8 w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-gray-950 font-black shadow-lg shadow-amber-500/20 transition-all text-sm">
+                        Select Executive (R270)
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ADD-ON SERVICES -->
+    <section id="addons" class="py-16 bg-gray-950/60 border-y border-gray-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-accent">Tailor Your Service</h2>
+                <h3 class="text-3xl font-extrabold text-white mt-1">Specialized Add-On Treatments</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <!-- Add-on 1 -->
+                <div class="p-6 rounded-2xl border border-gray-800 bg-dark-card flex items-center justify-between hover:border-brand-500/50 transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-accent flex items-center justify-center text-xl border border-brand-500/20">
+                            <i class="fa-solid fa-hand-sparkles"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-base">Clay Bar Paint Treatment</h4>
+                            <p class="text-gray-400 text-xs">Removes embedded surface contaminants & pitch</p>
+                        </div>
+                    </div>
+                    <span class="text-xl font-black text-brand-accent">+R50</span>
+                </div>
+
+                <!-- Add-on 2 -->
+                <div class="p-6 rounded-2xl border border-gray-800 bg-dark-card flex items-center justify-between hover:border-emerald-500/50 transition">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl border border-emerald-500/20">
+                            <i class="fa-solid fa-couch"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-base">Leather Seat Conditioning</h4>
+                            <p class="text-gray-400 text-xs">Nourishes leather & prevents UV cracking</p>
+                        </div>
+                    </div>
+                    <span class="text-xl font-black text-emerald-400">+R60</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK QUOTE / ESTIMATOR CALCULATOR -->
+    <section id="calculator" class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="rounded-3xl border border-gray-800 bg-dark-card p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Instant Quote Estimator</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm mt-1">Select options to calculate your exact price total before booking.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Options Selection -->
+                    <div class="space-y-6">
+                        <!-- Step 1: Base Tier -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">1. Base Package</label>
+                            <select id="calc-package" onchange="updateCalc()" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500">
+                                <option value="50">Basic Wash (R50)</option>
+                                <option value="100" selected>Standard Wash (R100)</option>
+                                <option value="270">Executive Detail (R270)</option>
+                            </select>
+                        </div>
+
+                        <!-- Step 2: Vehicle Type -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">2. Vehicle Type</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="setCalcVehicle(0, this)" class="calc-v-btn border border-brand-500 bg-brand-500/20 text-white p-3 rounded-xl text-center text-xs font-bold">
+                                    <i class="fa-solid fa-car block text-base mb-1"></i> Hatch / Sedan
+                                </button>
+                                <button type="button" onclick="setCalcVehicle(20, this)" class="calc-v-btn border border-gray-800 bg-gray-900 text-gray-400 p-3 rounded-xl text-center text-xs font-bold hover:border-gray-700">
+                                    <i class="fa-solid fa-truck-pickup block text-base mb-1"></i> SUV (+R20)
+                                </button>
+                                <button type="button" onclick="setCalcVehicle(40, this)" class="calc-v-btn border border-gray-800 bg-gray-900 text-gray-400 p-3 rounded-xl text-center text-xs font-bold hover:border-gray-700">
+                                    <i class="fa-solid fa-truck-monster block text-base mb-1"></i> Bakkie (+R40)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Addons -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">3. Extras & Add-ons</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-900 border border-gray-800 cursor-pointer text-xs">
+                                    <span class="flex items-center gap-2 text-gray-300">
+                                        <input type="checkbox" value="50" onchange="updateCalc()" class="calc-addon rounded bg-gray-800 border-gray-700 text-brand-500 focus:ring-0">
+                                        Clay Bar Treatment
+                                    </span>
+                                    <span class="text-brand-accent font-bold">+R50</span>
+                                </label>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-900 border border-gray-800 cursor-pointer text-xs">
+                                    <span class="flex items-center gap-2 text-gray-300">
+                                        <input type="checkbox" value="60" onchange="updateCalc()" class="calc-addon rounded bg-gray-800 border-gray-700 text-brand-500 focus:ring-0">
+                                        Leather Seat Conditioning
+                                    </span>
+                                    <span class="text-emerald-400 font-bold">+R60</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Output Box -->
+                    <div class="flex flex-col justify-between p-6 rounded-2xl bg-gray-900/90 border border-gray-800">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-brand-accent">Estimated Total Price</span>
+                            <div class="flex items-baseline gap-1 mt-2">
+                                <span id="calc-total" class="text-5xl font-black text-white">R100</span>
+                            </div>
+                            <p class="text-gray-400 text-xs mt-3 leading-relaxed">
+                                Choose a date and time slot in the booking step to finalize your reservation with M.CarsClean.
+                            </p>
+
+                            <div class="border-t border-gray-800 my-6 pt-4 space-y-2 text-xs text-gray-300">
+                                <div class="flex justify-between">
+                                    <span>Selected Package:</span>
+                                    <span id="calc-summary-pkg" class="font-semibold text-white">Standard Wash (R100)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Vehicle Fee:</span>
+                                    <span id="calc-summary-veh" class="font-semibold text-white">R0</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Add-ons Total:</span>
+                                    <span id="calc-summary-add" class="font-semibold text-white">R0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="bookCalculatedQuote()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 hover:to-brand-400 text-white font-bold text-sm shadow-lg shadow-brand-500/25 transition">
+                            Proceed To Booking Date & Time
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE CLIENT FEEDBACK SECTION -->
+    <section id="reviews" class="py-20 bg-gray-950/40 border-t border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-accent">Client Feedback</h2>
+                <h3 class="text-3xl font-extrabold text-white mt-1">Leave & View Experience Feedback</h3>
+                <p class="text-gray-400 text-xs sm:text-sm">Had your vehicle washed with M.CarsClean? Share your rating and review directly below!</p>
+            </div>
+
+            <!-- Feedback Submission Screen / Form -->
+            <div class="max-w-2xl mx-auto mb-16 p-6 sm:p-8 rounded-2xl border border-gray-800 bg-dark-card shadow-xl">
+                <form id="feedback-form" onsubmit="handleFeedbackSubmit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Your Name</label>
+                        <input type="text" id="fb-name" required placeholder="e.g. David Ross" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Your Star Rating</label>
+                        <div class="flex items-center space-x-2 text-2xl text-gray-600" id="star-rating-select">
+                            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(1)"></i>
+                            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(2)"></i>
+                            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(3)"></i>
+                            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(4)"></i>
+                            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(5)"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Your Feedback / Experience</label>
+                        <textarea id="fb-comment" required rows="3" placeholder="Tell us how your car turned out..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-500"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 text-white font-bold text-sm shadow-lg shadow-brand-500/25 transition">
+                        Post Feedback
+                    </button>
+                </form>
+            </div>
+
+            <!-- Dynamic Live Feedback Display -->
+            <div id="feedback-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- User submitted feedback renders dynamically here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-cyan flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-car-wash"></i>
+                    </div>
+                    <span class="text-xl font-black text-white">M.<span class="text-brand-accent">CARSCLEAN</span></span>
+                </div>
+                <div class="text-gray-500 text-xs text-center">
+                    © 2026 M.CarsClean. All bookings automatically route to <a href="mailto:marnusvs09@gmail.com" class="text-brand-accent underline">marnusvs09@gmail.com</a>.
+                </div>
+                <div class="flex items-center space-x-4 text-gray-400 text-lg">
+                    <a href="mailto:marnusvs09@gmail.com" class="hover:text-brand-accent" title="Email Us"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="https://wa.me/27000000000" class="hover:text-brand-accent" title="WhatsApp Us"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOOKING MODAL WITH SERVICE DATE & BOOKING TIME INPUTS -->
+    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-dark-card border border-gray-800 rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-gray-800 flex items-center justify-between sticky top-0 bg-dark-card z-10">
+                <div>
+                    <h3 class="text-xl font-bold text-white">Schedule Service & Booking</h3>
+                    <p class="text-gray-400 text-xs">Direct email transmission to marnusvs09@gmail.com</p>
+                </div>
+                <button onclick="closeBookingModal()" class="w-8 h-8 rounded-full bg-gray-800 text-gray-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Form with Formspree Endpoint to marnusvs09@gmail.com -->
+            <form id="modal-booking-form" action="https://formspree.io/f/marnusvs09@gmail.com" method="POST" onsubmit="handleBookingSubmit(event)" class="p-6 space-y-6">
+                
+                <!-- Hidden inputs for Formspree formatting -->
+                <input type="hidden" name="_to" value="marnusvs09@gmail.com">
+                <input type="hidden" name="Selected_Package" id="hidden-pkg-input">
+                <input type="hidden" name="Total_Calculated_Price" id="hidden-total-input">
+
+                <!-- Package Indicator -->
+                <div class="p-4 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs uppercase font-bold text-brand-accent tracking-wider">Selected Package</span>
+                        <h4 id="modal-pkg-name" class="text-lg font-extrabold text-white">Standard Wash</h4>
+                    </div>
+                    <span id="modal-pkg-base-price" class="text-2xl font-black text-white">R100</span>
+                </div>
+
+                <!-- SERVICE DATE & BOOKING TIME INPUT FIELDS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                            <i class="fa-regular fa-calendar-check text-brand-accent mr-1"></i> Service Date
+                        </label>
+                        <input type="date" name="Service_Date" id="modal-service-date" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                            <i class="fa-regular fa-clock text-brand-accent mr-1"></i> Booking Time
+                        </label>
+                        <select name="Booking_Time" id="modal-booking-time" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500">
+                            <option value="">Select Time Slot</option>
+                            <option value="08:00 AM">08:00 AM</option>
+                            <option value="09:30 AM">09:30 AM</option>
+                            <option value="11:00 AM">11:00 AM</option>
+                            <option value="12:30 PM">12:30 PM</option>
+                            <option value="02:00 PM">02:00 PM</option>
+                            <option value="03:30 PM">03:30 PM</option>
+                            <option value="05:00 PM">05:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Vehicle Size Selector -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Vehicle Size</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="modal-v-card cursor-pointer border border-brand-500 bg-brand-500/20 rounded-xl p-3 text-center">
+                            <input type="radio" name="Vehicle_Type" value="Sedan/Hatch (+R0)" checked onchange="updateModalPrice()" class="sr-only">
+                            <i class="fa-solid fa-car block text-lg mb-1 text-white"></i>
+                            <span class="block text-xs font-bold text-white">Hatch / Sedan</span>
+                            <span class="block text-[10px] text-gray-400">+R0</span>
+                        </label>
+                        <label class="modal-v-card cursor-pointer border border-gray-800 bg-gray-900 rounded-xl p-3 text-center">
+                            <input type="radio" name="Vehicle_Type" value="SUV (+R20)" onchange="updateModalPrice()" class="sr-only">
+                            <i class="fa-solid fa-truck-pickup block text-lg mb-1 text-gray-300"></i>
+                            <span class="block text-xs font-bold text-white">SUV / Crossover</span>
+                            <span class="block text-[10px] text-brand-accent">+R20</span>
+                        </label>
+                        <label class="modal-v-card cursor-pointer border border-gray-800 bg-gray-900 rounded-xl p-3 text-center">
+                            <input type="radio" name="Vehicle_Type" value="Bakkie (+R40)" onchange="updateModalPrice()" class="sr-only">
+                            <i class="fa-solid fa-truck-monster block text-lg mb-1 text-gray-300"></i>
+                            <span class="block text-xs font-bold text-white">Bakkie / Van</span>
+                            <span class="block text-[10px] text-brand-accent">+R40</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Add-on checkboxes -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Optional Add-ons</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-900 border border-gray-800 cursor-pointer text-xs">
+                            <span class="flex items-center gap-2 text-gray-300">
+                                <input type="checkbox" name="Addon_ClayBar" value="Clay Bar Treatment (+R50)" onchange="updateModalPrice()" class="modal-addon rounded bg-gray-800 border-gray-700 text-brand-500 focus:ring-0">
+                                Clay Bar Paint Treatment
+                            </span>
+                            <span class="text-brand-accent font-bold">+R50</span>
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-900 border border-gray-800 cursor-pointer text-xs">
+                            <span class="flex items-center gap-2 text-gray-300">
+                                <input type="checkbox" name="Addon_Leather" value="Leather Conditioning (+R60)" onchange="updateModalPrice()" class="modal-addon rounded bg-gray-800 border-gray-700 text-brand-500 focus:ring-0">
+                                Leather Conditioning
+                            </span>
+                            <span class="text-emerald-400 font-bold">+R60</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="space-y-3 border-t border-gray-800 pt-4">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-300">Customer Contact Details</label>
+                    <input type="text" name="Client_Name" id="modal-name" placeholder="Full Name" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500">
+                    <input type="tel" name="Client_Phone" id="modal-phone" placeholder="Phone Number / WhatsApp" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500">
+                    <input type="email" name="_replyto" id="modal-email" placeholder="Your Email Address" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500">
+                    <textarea name="Special_Notes" placeholder="Special Requests or Vehicle Location details (optional)..." rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-brand-500"></textarea>
+                </div>
+
+                <!-- Price Summary & Submission button -->
+                <div class="border-t border-gray-800 pt-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-gray-400 text-xs">Total Amount</span>
+                        <div id="modal-final-price" class="text-3xl font-black text-white">R100</div>
+                    </div>
+                    <button type="submit" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan hover:from-brand-500 text-white font-bold text-sm shadow-lg shadow-brand-500/30">
+                        Confirm & Send To marnusvs09@gmail.com
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 hidden transition-all transform translate-y-4">
+        <i class="fa-solid fa-circle-check text-2xl"></i>
+        <div>
+            <h5 class="font-bold text-sm">Booking Transmitted!</h5>
+            <p class="text-xs text-emerald-100">Sent directly to marnusvs09@gmail.com with your selected date & time.</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Interactive Client Reviews Store
+        let clientReviews = [];
+
+        let selectedRating = 5;
+
+        // Render Reviews List
+        function renderReviews() {
+            const container = document.getElementById('feedback-grid');
+            if (clientReviews.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500 text-sm">
+                        No feedback posted yet. Be the first to post your experience above!
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = clientReviews.map(r => `
+                <div class="p-6 rounded-2xl border border-gray-800 bg-dark-card space-y-4">
+                    <div class="flex items-center text-amber-400 gap-1 text-sm">
+                        ${Array(r.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">"${r.comment}"</p>
+                    <div class="flex items-center justify-between border-t border-gray-800/80 pt-4">
+                        <h5 class="text-white font-bold text-sm">${r.name}</h5>
+                        <span class="text-gray-500 text-xs">${r.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Set Rating Stars
+        function setRating(rating) {
+            selectedRating = rating;
+            const stars = document.querySelectorAll('#star-rating-select i');
+            stars.forEach((star, index) => {
+                if(index < rating) {
+                    star.classList.add('text-amber-400');
+                    star.classList.remove('text-gray-600');
+                } else {
+                    star.classList.remove('text-amber-400');
+                    star.classList.add('text-gray-600');
+                }
+            });
+        }
+
+        // Handle Client Feedback Submit
+        function handleFeedbackSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value;
+            const comment = document.getElementById('fb-comment').value;
+
+            clientReviews.unshift({
+                name: name,
+                rating: selectedRating,
+                comment: comment,
+                time: "Just now"
+            });
+
+            renderReviews();
+            document.getElementById('feedback-form').reset();
+            setRating(5);
+        }
+
+        // Initial setup on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderReviews();
+            setRating(5);
+
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('modal-service-date');
+            if (dateInput) dateInput.min = today;
+        });
+
+        // Mobile Nav Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Booking Modal State
+        let currentPackageName = 'Standard';
+        let currentPackageBasePrice = 100;
+        let calcVehicleFee = 0;
+
+        function openBookingModal(pkgName, basePrice) {
+            currentPackageName = pkgName;
+            currentPackageBasePrice = basePrice;
+
+            document.getElementById('modal-pkg-name').textContent = pkgName + " Package";
+            document.getElementById('modal-pkg-base-price').textContent = "R" + basePrice;
+
+            const radios = document.getElementsByName('Vehicle_Type');
+            radios[0].checked = true;
+
+            const checkboxes = document.querySelectorAll('.modal-addon');
+            checkboxes.forEach(cb => cb.checked = false);
+
+            updateModalPrice();
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        function updateModalPrice() {
+            let total = currentPackageBasePrice;
+
+            const vehicleRadios = document.getElementsByName('Vehicle_Type');
+            vehicleRadios.forEach(radio => {
+                if (radio.checked) {
+                    if (radio.value.includes('20')) total += 20;
+                    if (radio.value.includes('40')) total += 40;
+                }
+            });
+            updateVehicleCardStyles();
+
+            const checkboxes = document.querySelectorAll('.modal-addon');
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    if (cb.value.includes('50')) total += 50;
+                    if (cb.value.includes('60')) total += 60;
+                }
+            });
+
+            document.getElementById('modal-final-price').textContent = "R" + total;
+            document.getElementById('hidden-pkg-input').value = currentPackageName;
+            document.getElementById('hidden-total-input').value = "R" + total;
+        }
+
+        function updateVehicleCardStyles() {
+            const cards = document.querySelectorAll('.modal-v-card');
+            cards.forEach(card => {
+                const radio = card.querySelector('input[type="radio"]');
+                if (radio.checked) {
+                    card.classList.add('border-brand-500', 'bg-brand-500/20');
+                    card.classList.remove('border-gray-800', 'bg-gray-900');
+                } else {
+                    card.classList.remove('border-brand-500', 'bg-brand-500/20');
+                    card.classList.add('border-gray-800', 'bg-gray-900');
+                }
+            });
+        }
+
+        // Automatic Mail Dispatch Handler
+        function handleBookingSubmit(e) {
+            const name = document.getElementById('modal-name').value;
+            const phone = document.getElementById('modal-phone').value;
+            const email = document.getElementById('modal-email').value;
+            const date = document.getElementById('modal-service-date').value;
+            const time = document.getElementById('modal-booking-time').value;
+            const price = document.getElementById('modal-final-price').textContent;
+
+            // Trigger mailto fallback to guarantee arrival at marnusvs09@gmail.com
+            const mailtoSubject = encodeURIComponent(`New Booking: ${currentPackageName} Package - M.CarsClean`);
+            const mailtoBody = encodeURIComponent(
+                `Booking Request for M.CarsClean:\n\n` +
+                `Name: ${name}\n` +
+                `Phone: ${phone}\n` +
+                `Email: ${email}\n` +
+                `Package: ${currentPackageName}\n` +
+                `Service Date: ${date}\n` +
+                `Booking Time Slot: ${time}\n` +
+                `Total Price: ${price}\n`
+            );
+
+            window.open(`mailto:marnusvs09@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`, '_blank');
+            
+            closeBookingModal();
+            showToast();
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden', 'translate-y-4');
+            setTimeout(() => {
+                toast.classList.add('hidden', 'translate-y-4');
+            }, 6000);
+        }
+
+        // Calculator Logic
+        function setCalcVehicle(fee, btn) {
+            calcVehicleFee = fee;
+            const buttons = document.querySelectorAll('.calc-v-btn');
+            buttons.forEach(b => {
+                b.classList.remove('border-brand-500', 'bg-brand-500/20', 'text-white');
+                b.classList.add('border-gray-800', 'bg-gray-900', 'text-gray-400');
+            });
+            btn.classList.remove('border-gray-800', 'bg-gray-900', 'text-gray-400');
+            btn.classList.add('border-brand-500', 'bg-brand-500/20', 'text-white');
+            updateCalc();
+        }
+
+        function updateCalc() {
+            const pkgSelect = document.getElementById('calc-package');
+            const basePrice = parseInt(pkgSelect.value);
+            const pkgText = pkgSelect.options[pkgSelect.selectedIndex].text;
+
+            let addonsTotal = 0;
+            const checkboxes = document.querySelectorAll('.calc-addon');
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    addonsTotal += parseInt(cb.value);
+                }
+            });
+
+            const grandTotal = basePrice + calcVehicleFee + addonsTotal;
+
+            document.getElementById('calc-total').textContent = "R" + grandTotal;
+            document.getElementById('calc-summary-pkg').textContent = pkgText;
+            document.getElementById('calc-summary-veh').textContent = "R" + calcVehicleFee;
+            document.getElementById('calc-summary-add').textContent = "R" + addonsTotal;
+        }
+
+        function bookCalculatedQuote() {
+            const pkgSelect = document.getElementById('calc-package');
+            const basePrice = parseInt(pkgSelect.value);
+            let pkgName = "Basic";
+            if(basePrice === 100) pkgName = "Standard";
+            if(basePrice === 270) pkgName = "Executive";
+
+            openBookingModal(pkgName, basePrice);
+        }
+    </script>
+</body>
+</html>
